@@ -4,43 +4,56 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - "8080:8080"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     environment:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_NAME=gofiber_template
+      - DB_NAME=social_db
       - DB_SSL_MODE=disable
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=
       - REDIS_DB=0
-      - JWT_SECRET=your-super-secret-jwt-key
-      - APP_PORT=3000
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - APP_PORT=8080
       - APP_ENV=development
       - BUNNY_STORAGE_ZONE=your-storage-zone
       - BUNNY_ACCESS_KEY=your-access-key
       - BUNNY_BASE_URL=https://storage.bunnycdn.com
       - BUNNY_CDN_URL=https://your-cdn-url.b-cdn.net
     volumes:
-      - .:/app
+      - uploads_data:/app/uploads
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   postgres:
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: gofiber_template
+      POSTGRES_DB: social_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d social_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7-alpine
@@ -49,7 +62,13 @@ services:
     volumes:
       - redis_data:/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
   redis_data:
+  uploads_data:

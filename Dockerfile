@@ -1,24 +1,60 @@
+# Build stage
 FROM golang:1.21-alpine AS builder
+
+# Install git for go mod download
+RUN apk add --no-cache git
 
 WORKDIR /app
 
-RUN apk add --no-cache git ca-certificates
-
+# Copy go mod files
 COPY go.mod go.sum ./
+
+# Download dependencies
 RUN go mod download
 
+# Copy source code
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main ./cmd/api
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+    -ldflags='-w -s -extldflags "-static"' \
+    -a -installsuffix cgo \
+    -o gofiber-social ./cmd/api
 
+# Production stage
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificates tzdata
+# Install runtime dependencies
+RUN apk add --no-cache \
+    ca-certificates \
+    tzdata \
+    curl
 
-WORKDIR /root/
+# Set timezone
+ENV TZ=Asia/Bangkok
 
-COPY --from=builder /app/main .
+# Create non-root user for security
+RUN addgroup -g 1001 -S appgroup && \
+    adduser -u 1001 -S appuser -G appgroup
 
-EXPOSE 3000
+WORKDIR /app
 
-CMD ["./main"]
+# Copy binary from builder stage
+COPY --from=builder /app/gofiber-social .
+
+# Create uploads directory with proper permissions
+RUN mkdir -p /app/uploads && \
+    chown -R appuser:appgroup /app
+
+# Switch to non-root user
+USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8080/health || exit 1
+
+# Expose port
+EXPOSE 8080
+
+# Run the application
+CMD ["./gofiber-social"]
