@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(dir:*)",
+      "Bash(mkdir:*)",
+      "Bash(findstr:*)",
+      "Bash(go build:*)",
+      "Bash(go mod:*)",
+      "Bash(go run:*)",
+      "Bash(curl -X POST http://localhost:8080/api/v1/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"admin@test.com\"\",\"\"username\"\":\"\"admin\"\",\"\"password\"\":\"\"admin123\"\",\"\"firstName\"\":\"\"Admin\"\",\"\"lastName\"\":\"\"Test\"\"}\")",
+      "Bash(psql:*)",
+      "Bash(curl:*)",
+      "Bash(timeout:*)",
+      "Bash(python:*)",
+      "Bash(taskkill:*)",
+      "Bash(netstat:*)",
+      "Bash(where psql)",
+      "Bash(del test_notification.go)",
+      "Bash(copy:*)",
+      "Bash(taskkill.exe:*)",
+      "Bash(cmd /c:*)",
+      "Bash(git add .)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
