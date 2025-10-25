@@ -28,7 +28,10 @@
       "Bash(docker-compose up --build -d)",
       "Bash(docker-compose logs -f app)",
       "Bash(docker-compose stop)",
-      "Bash(docker-compose logs app)"
+      "Bash(docker-compose logs app)",
+      "Bash(docker-compose build --no-cache app)",
+      "Bash(docker-compose down -v)",
+      "Bash(docker-compose up -d)"
     ],
     "deny": [],
     "ask": []

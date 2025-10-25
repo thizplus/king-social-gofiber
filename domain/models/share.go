@@ -7,7 +7,7 @@ import (
 )
 
 type Share struct {
-	ID        uuid.UUID `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
+	ID        uuid.UUID `gorm:"type:uuid;primary_key;default:gen_random_uuid()" json:"id"`
 	UserID    uuid.UUID `gorm:"type:uuid;not null;index" json:"userId"`
 	VideoID   uuid.UUID `gorm:"type:uuid;not null;index" json:"videoId"`
 	Platform  string    `gorm:"type:varchar(50)" json:"platform"` // "facebook", "twitter", "line", "copy_link"
