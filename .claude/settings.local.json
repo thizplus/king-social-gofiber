@@ -31,7 +31,8 @@
       "Bash(docker-compose logs app)",
       "Bash(docker-compose build --no-cache app)",
       "Bash(docker-compose down -v)",
-      "Bash(docker-compose up -d)"
+      "Bash(docker-compose up -d)",
+      "Bash(docker-compose logs postgres)"
     ],
     "deny": [],
     "ask": []
