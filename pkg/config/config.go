@@ -48,10 +48,8 @@ type BunnyConfig struct {
 }
 
 func LoadConfig() (*Config, error) {
-	err := godotenv.Load()
-	if err != nil {
-		return nil, err
-	}
+	// Try to load .env file, but don't fail if it doesn't exist (for Docker)
+	_ = godotenv.Load()
 
 	redisDB, _ := strconv.Atoi(getEnv("REDIS_DB", "0"))
 

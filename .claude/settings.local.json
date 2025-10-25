@@ -23,7 +23,12 @@
       "Bash(git add .)",
       "Bash(git commit -m \"$(cat <<''EOF''\nfeat: Complete Go Fiber social media platform implementation\n\n## Major Features Added:\n- **Forum Management**: Complete CRUD operations with admin controls\n- **Topic & Reply System**: Full discussion functionality with pagination\n- **User Authentication**: JWT-based auth with role management\n- **Content Management**: Like, comment, share, and tag systems\n- **File Upload**: Video and image upload with storage integration\n- **Notification System**: Real-time notifications with WebSocket\n- **Admin Dashboard**: Comprehensive admin controls and analytics\n- **Topic Filtering**: Enhanced topic filtering by forum slug and tags\n\n## New API Endpoints:\n- Forum operations with slug support\n- Topic filtering by tags (single/multiple)\n- Auto-sync topic counts for data consistency\n- Real-time WebSocket communication\n- File upload with validation\n\n## Technical Improvements:\n- Clean Architecture with DI container\n- PostgreSQL with GORM ORM\n- Redis caching integration\n- Comprehensive validation\n- Error handling middleware\n- Docker containerization\n- Air live reload for development\n\n## Database Synchronization:\n- Fixed topic count inconsistencies\n- Added auto-sync functionality for forum statistics\n- Enhanced data integrity across all entities\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git push origin main)",
-      "Bash(docker build -t gofiber-social:test .)"
+      "Bash(docker build -t gofiber-social:test .)",
+      "Bash(docker-compose down)",
+      "Bash(docker-compose up --build -d)",
+      "Bash(docker-compose logs -f app)",
+      "Bash(docker-compose stop)",
+      "Bash(docker-compose logs app)"
     ],
     "deny": [],
     "ask": []

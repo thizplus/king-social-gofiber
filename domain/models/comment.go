@@ -8,7 +8,7 @@ import (
 )
 
 type Comment struct {
-	ID        uuid.UUID      `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
+	ID        uuid.UUID      `gorm:"type:uuid;primary_key;default:gen_random_uuid()" json:"id"`
 	UserID    uuid.UUID      `gorm:"type:uuid;not null;index" json:"userId"`
 	VideoID   uuid.UUID      `gorm:"type:uuid;not null;index" json:"videoId"`
 	ParentID  *uuid.UUID     `gorm:"type:uuid;index" json:"parentId,omitempty"` // For nested comments

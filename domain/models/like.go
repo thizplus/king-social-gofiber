@@ -8,7 +8,7 @@ import (
 )
 
 type Like struct {
-	ID        uuid.UUID  `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
+	ID        uuid.UUID  `gorm:"type:uuid;primary_key;default:gen_random_uuid()" json:"id"`
 	UserID    uuid.UUID  `gorm:"type:uuid;not null;index" json:"userId"`
 	TopicID   *uuid.UUID `gorm:"type:uuid;index" json:"topicId,omitempty"`   // Nullable - for topic likes
 	VideoID   *uuid.UUID `gorm:"type:uuid;index" json:"videoId,omitempty"`   // Nullable - for video likes
